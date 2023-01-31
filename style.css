@@ -1,0 +1,58 @@
+* {
+    background-color: beige;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#container {
+    color: red;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+#container > #display {
+    display: flex;
+    border: 1px solid black;
+    width: 100%;
+    height: 40px;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 30px;
+}
+
+#container > .row {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    min-width: 40%;
+    font-size: 400%;
+}
+
+.row > .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: fit-content;
+    border: 2px solid black;
+    background-color: RGB(200, 240, 240);
+    gap: 10px;
+    flex: 1 1 0px;
+}
+
+.row > .symbol {
+    background-color: RGB(225, 70, 110);
+    color: whitesmoke;
+}
+
+.row > .number {
+    color: black;
+}
