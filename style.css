@@ -26,6 +26,11 @@ body {
     justify-content: flex-end;
     align-items: center;
     font-size: 30px;
+    background-color:azure
+}
+
+#answer {
+    background-color: inherit;
 }
 
 #container > .row {
@@ -55,4 +60,10 @@ body {
 
 .row > .number {
     color: black;
+}
+
+.row > .clicked{
+    background-color: RGB(225, 70, 110);
+    color: whitesmoke;
+    border: 4px solid yellow;
 }
