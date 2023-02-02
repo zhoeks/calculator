@@ -1,7 +1,11 @@
 const number = document.querySelectorAll('.number');
 const answer = document.getElementById('answer');
 const symbol = document.querySelectorAll('.symbol');
+const calcString = document.getElementById('currentCalc');
 var firstNum = 0;
+var secondNum = 0;
+var operator = '';
+var problemHistory = [];
 
 const add = function(...args) {
     let answer = args[0];
@@ -40,7 +44,7 @@ const percent = function(arg) {
 }
 
 const cButton = function() {
-    return 0;
+    answer.innerHTML = '';
 }
 
 const square = function(num) {
@@ -51,32 +55,32 @@ const calculate = function(func, num1, num2) {
     return func(num1, num2);
 }
 
-const getOperation = function(symbol) {
-    let func = symbol;
-    switch (symbol) {
+const getOperation = function(operator) {
+
+    switch (operator) {
         case '%':
-            func = percent;
+            return percent(firstNum);
             break;
         case 'Sq':
-            func = square;
+            return square(firstNum);
             break;
         case '*':
-            func = multiply;
+            return multiply(firstNum, secondNum);
             break;
         case '-':
-            func = subtract;
+            return subtract(firstNum, secondNum);
             break;
         case '+':
-            func = add;
+            return add(firstNum, secondNum);
             break;
         case '/':
-            func = divide;
+            return divide(firstNum, secondNum);
             break;
         case 'C':
-            func = cButton;
+            return cButton(firstNum, secondNum);
             break;
         case 'Calc':
-            func = calculate;
+            return calculate(firstNum, secondNum);
             break;
     }
 }
@@ -85,14 +89,27 @@ number.forEach((numb) => {
     numb.addEventListener('click', (e) => {
         let divNumb = numb.innerHTML;
         answer.innerHTML += divNumb;
+        secondNum = parseFloat(answer.innerHTML);
     });
 });
 
 symbol.forEach((sign) => {
     sign.addEventListener('click', (e) => {
-        //var active = document.querySelectorAll('.clicked');
-        sign.classList.add('clicked'); 
-        firstNum = document.getElementById('answer').innerHTML
-
+        if (firstNum === 0) {
+            firstNum = secondNum;
+            operator = sign.innerHTML;
+            calcString.innerHTML += firstNum + operator;
+            answer.innerHTML = '';
+            problemHistory.push(secondNum, operator);
+        } else {
+            firstNum = getOperation(operator);
+            operator = sign.innerHTML;
+            calcString.innerHTML = firstNum;
+            answer.innerHTML = '';
+            problemHistory.push(secondNum, ' = ', firstNum, operator);
+        }
     });
 });
+
+
+
