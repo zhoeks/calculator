@@ -2,6 +2,7 @@ const number = document.querySelectorAll('.number');
 const answer = document.getElementById('answer');
 const symbol = document.querySelectorAll('.symbol');
 const calcString = document.getElementById('currentCalc');
+const clear = document.querySelector('.clear');
 var firstNum = 0;
 var secondNum = 0;
 var operator = '';
@@ -44,15 +45,19 @@ const percent = function(arg) {
 }
 
 const cButton = function() {
-    answer.innerHTML = '';
+    secondNum = '';
+    return answer.innerHTML = 0;
+
 }
 
 const square = function(num) {
     return (num * num);
 }
 
-const calculate = function(func, num1, num2) {
-    return func(num1, num2);
+const calculate = function() {
+    secondNum = firstNum;
+    firstNum = 0;
+    return secondNum;
 }
 
 const getOperation = function(operator) {
@@ -76,40 +81,65 @@ const getOperation = function(operator) {
         case '/':
             return divide(firstNum, secondNum);
             break;
-        case 'C':
-            return cButton(firstNum, secondNum);
-            break;
         case 'Calc':
             return calculate(firstNum, secondNum);
+
             break;
     }
 }
 
 number.forEach((numb) => {
     numb.addEventListener('click', (e) => {
+        if (firstNum == 0) {
+            let divNumb = numb.innerHTML;
+            answer.innerHTML = divNumb;
+            firstNum = parseFloat(answer.innerHTML);
+        } else if (firstNum != 0 && secondNum == 0) {
         let divNumb = numb.innerHTML;
-        answer.innerHTML += divNumb;
+        answer.innerHTML = divNumb;
         secondNum = parseFloat(answer.innerHTML);
+        } else {
+            let divNumb = numb.innerHTML;
+            answer.innerHTML += divNumb;
+            secondNum = parseFloat(answer.innerHTML);
+        }
+        
+        });
     });
-});
 
 symbol.forEach((sign) => {
     sign.addEventListener('click', (e) => {
         if (firstNum === 0) {
-            firstNum = secondNum;
             operator = sign.innerHTML;
-            calcString.innerHTML += firstNum + operator;
+            calcString.innerHTML += firstNum + ' ' + operator;
             answer.innerHTML = '';
             problemHistory.push(secondNum, operator);
-        } else {
+        } else 
+        if (firstNum !== 0 && secondNum !==0) {
             firstNum = getOperation(operator);
             operator = sign.innerHTML;
-            calcString.innerHTML = firstNum;
+            if (operator == 'Calc') {
+                calcString.innerHTML = firstNum;
+                firstNum = 0;
+            } else {
+            calcString.innerHTML = firstNum + ' ' + operator;
+            }
             answer.innerHTML = '';
             problemHistory.push(secondNum, ' = ', firstNum, operator);
+        } else {
+            operator = sign.innerHTML;
+            if (operator == 'Calc') {
+                calcString.innerHTML = firstNum;
+                firstNum = 0;
+            } else {
+            calcString.innerHTML = firstNum + ' ' + operator;
+            }
+            answer.innerHTML = '';
         }
     });
 });
+
+clear.addEventListener('click', (cButton));
 
 
 
