@@ -2,11 +2,12 @@ const number = document.querySelectorAll('.number');
 const answer = document.getElementById('answer');
 const symbol = document.querySelectorAll('.symbol');
 const calcString = document.getElementById('currentCalc');
-const clear = document.querySelector('.clear');
+const special = document.querySelectorAll('.special');
 var firstNum = 0;
 var secondNum = 0;
 var operator = '';
 var problemHistory = [];
+var calcResult = 0;
 
 const add = function(...args) {
     let answer = args[0];
@@ -50,8 +51,8 @@ const cButton = function() {
 
 }
 
-const square = function(num) {
-    return (num * num);
+const square = function(firstNum) {
+    return (firstNum * firstNum);
 }
 
 const calculate = function() {
@@ -83,7 +84,9 @@ const getOperation = function(operator) {
             break;
         case 'Calc':
             return calculate(firstNum, secondNum);
-
+            break;
+        case 'C' :
+            return cButton();
             break;
     }
 }
@@ -110,16 +113,23 @@ number.forEach((numb) => {
 symbol.forEach((sign) => {
     sign.addEventListener('click', (e) => {
         if (firstNum === 0) {
+            if (secondNum !== 0) {
+                operator = sign.innerHTML
+                firstNum = calcResult;
+                calcString.innerHTML = firstNum + ' ' + operator;
+            } else {
             operator = sign.innerHTML;
             calcString.innerHTML += firstNum + ' ' + operator;
             answer.innerHTML = '';
             problemHistory.push(secondNum, operator);
+            }
         } else 
         if (firstNum !== 0 && secondNum !==0) {
             firstNum = getOperation(operator);
             operator = sign.innerHTML;
             if (operator == 'Calc') {
                 calcString.innerHTML = firstNum;
+                calcResult = firstNum;
                 firstNum = 0;
             } else {
             calcString.innerHTML = firstNum + ' ' + operator;
@@ -139,7 +149,13 @@ symbol.forEach((sign) => {
     });
 });
 
-clear.addEventListener('click', (cButton));
+special.forEach((spec) => {
+    spec.addEventListener('click', (e) => {
+        operator = spec.innerHTML;
+        firstNum = getOperation(operator);
+        calcString.innerHTML = firstNum;
+    });
+});
 
 
 
