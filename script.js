@@ -46,9 +46,7 @@ const percent = function(arg) {
 }
 
 const cButton = function() {
-    secondNum = '';
-    return answer.innerHTML = 0;
-
+    return secondNum = 0;
 }
 
 const square = function(firstNum) {
@@ -93,11 +91,11 @@ const getOperation = function(operator) {
 
 number.forEach((numb) => {
     numb.addEventListener('click', (e) => {
-        if (firstNum == 0) {
+        if (firstNum === 0) {
             let divNumb = numb.innerHTML;
             answer.innerHTML = divNumb;
             firstNum = parseFloat(answer.innerHTML);
-        } else if (firstNum != 0 && secondNum == 0) {
+        } else if (firstNum !== 0 && secondNum == 0) {
         let divNumb = numb.innerHTML;
         answer.innerHTML = divNumb;
         secondNum = parseFloat(answer.innerHTML);
@@ -119,7 +117,8 @@ symbol.forEach((sign) => {
                 calcString.innerHTML = firstNum + ' ' + operator;
             } else {
             operator = sign.innerHTML;
-            calcString.innerHTML += firstNum + ' ' + operator;
+            firstNum = getOperation(operator);
+            calcString.innerHTML += firstNum;
             answer.innerHTML = '';
             problemHistory.push(secondNum, operator);
             }
@@ -152,8 +151,13 @@ symbol.forEach((sign) => {
 special.forEach((spec) => {
     spec.addEventListener('click', (e) => {
         operator = spec.innerHTML;
+        if (secondNum !== 0) {
+        secondNum = getOperation(operator);
+        calcString.innerHTML = firstNum;
+        } else {
         firstNum = getOperation(operator);
         calcString.innerHTML = firstNum;
+        };
     });
 });
 
